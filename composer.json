@@ -1,0 +1,21 @@
+{
+    "name": "heggi/yii2-files",
+    "description": "Yii2-files - behavior-based module for storing files",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Heggi",
+            "email": "heggi@fhead.org"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "heggi\\yii2files\\": ""
+        }
+    }
+}
