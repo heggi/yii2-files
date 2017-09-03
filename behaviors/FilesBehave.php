@@ -104,6 +104,16 @@ class FilesBehave extends Behavior {
         return false;
     }
 
+    public function setFileParam($id, $param, $value) {
+        $finder = $this->getFilesFinder(['id' => $id]);
+        $query = Files::find();
+        $query->where($finder);
+        $file = $query->one();
+        if(!$file) return false;
+        $file->{$param} = $value;
+        return $file->save();
+    }
+
     private function getFilesFinder($additionWhere = false) {
         $base = [
             'itemId' => $this->owner->primaryKey,
