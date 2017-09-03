@@ -1,5 +1,7 @@
 <?php
 
+namespace heggi\yii2files\migrations;
+
 use yii\db\Migration;
 
 class m170615_163033_create_files_table extends Migration {

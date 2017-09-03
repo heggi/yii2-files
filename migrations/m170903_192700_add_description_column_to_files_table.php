@@ -1,5 +1,7 @@
 <?php
 
+namespace heggi\yii2files\migrations;
+
 use yii\db\Migration;
 
 class m170903_192700_add_description_column_to_files_table extends Migration {
