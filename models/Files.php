@@ -58,6 +58,6 @@ class Files extends \yii\db\ActiveRecord {
     }
 
     public function getDownloadUrl() {
-        return Url::toRoute(['default/index', 'filePath' => $this->filePath]);
+        return Url::toRoute(['files/download', 'filePath' => $this->filePath]);
     }
 }
