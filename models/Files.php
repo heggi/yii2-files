@@ -23,6 +23,7 @@ class Files extends \yii\db\ActiveRecord {
             [['modelName'], 'string', 'max' => 150],
             [['category'], 'string', 'max' => 50],
             [['mimetype', 'name'], 'string', 'max' => 100],
+            [['description'], 'string', 'max' => 255],
         ];
     }
 
@@ -54,5 +55,9 @@ class Files extends \yii\db\ActiveRecord {
             return $this->getModule()->getCacheUrl() . $sizeString . '/' . $this->filePath;
         }
         return $this->getModule()->getStoreUrl() . $this->filePath;
+    }
+
+    public function getDownloadUrl() {
+        return Url::toRoute(['default/index', 'filePath' => $this->filePath]);
     }
 }
