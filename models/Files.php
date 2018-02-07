@@ -28,7 +28,7 @@ class Files extends \yii\db\ActiveRecord {
     }
 
     public function getUrl($sizeString = false) {
-        if(in_array($this->mimetype, ['image/png', 'image/jpeg']) && !empty($sizeString)) {
+        if($this->isImage && !empty($sizeString)) {
             $origFile = $this->getModule()->getStorePath() . DIRECTORY_SEPARATOR . $this->filePath;
             $fullPath = $this->getModule()->getCachePath() . DIRECTORY_SEPARATOR . $sizeString;
             $fullName = $fullPath . DIRECTORY_SEPARATOR . $this->filePath;
@@ -59,5 +59,9 @@ class Files extends \yii\db\ActiveRecord {
 
     public function getDownloadUrl() {
         return Url::toRoute(['files/download', 'filePath' => $this->filePath]);
+    }
+    
+    public function getIsImage() {
+        return substr($this->mimetype, 0, 6) === 'image/';
     }
 }
