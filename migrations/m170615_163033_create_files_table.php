@@ -8,7 +8,7 @@ class m170615_163033_create_files_table extends Migration {
 
         $this->createTable('files', [
             'id' => $this->primaryKey(),
-            'filePath' => $this->string(400)->notNull(),
+            'filePath' => $this->string(255)->notNull(),
             'itemId' => $this->integer(),
             'modelName' => $this->string(150)->notNull(),
             'mimetype' => $this->string(100),
