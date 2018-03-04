@@ -39,6 +39,6 @@ class MultipleFilesWidget extends InputWidget {
             echo '</div>';
         }
 
-        echo Html::activeFileInput($this->model, $this->attribute . '[]', ArrayHelper::merge(['multiple' => true, 'value' => ''], $this->options));
+        echo Html::activeFileInput($this->model, $this->attribute . '[]', ArrayHelper::merge(['multiple' => true], $this->options));
     }
 }

@@ -27,10 +27,10 @@ class Files extends \yii\db\ActiveRecord {
         ];
     }
 
-    public function getUrl($sizeString = false) {
+    public function getUrl($sizeString = false, $fill = false) {
         if($this->isImage && !empty($sizeString)) {
             $origFile = $this->getModule()->getStorePath() . DIRECTORY_SEPARATOR . $this->filePath;
-            $fullPath = $this->getModule()->getCachePath() . DIRECTORY_SEPARATOR . $sizeString;
+            $fullPath = $this->getModule()->getCachePath() . DIRECTORY_SEPARATOR . $sizeString . ($fill?'_f':'');
             $fullName = $fullPath . DIRECTORY_SEPARATOR . $this->filePath;
             $fullName = BaseFileHelper::normalizePath($fullName);
             if(!file_exists($fullName)) {
@@ -39,12 +39,22 @@ class Files extends \yii\db\ActiveRecord {
                 $image = new \Imagick($origFile);
                 $image->setImageCompressionQuality($this->getModule()->imageCompressionQuality);
                 if($size){
-                    if($size['height'] && $size['width']){
-                        $image->cropThumbnailImage($size['width'], $size['height']);
+                    if($size['height'] && $size['width']) {
+                        if($fill) {
+                            $width = $image->getImageWidth();
+                            $height = $image->getImageHeight();
+                            if($width/$size['width'] > $height/$size['height']) {
+                                $image->scaleImage($size['width'], 0);
+                            } else {
+                                $image->scaleImage(0, $size['height']);
+                            }
+                        } else {
+                            $image->cropThumbnailImage($size['width'], $size['height']);
+                        }
                     }elseif($size['height']){
-                        $image->thumbnailImage(0, $size['height']);
+                        $image->scaleImage(0, $size['height']);
                     }elseif($size['width']){
-                        $image->thumbnailImage($size['width'], 0);
+                        $image->scaleImage($size['width'], 0);
                     }else{
                         throw new \Exception('Something wrong with this->module->parseSize($sizeString)');
                     }
@@ -52,7 +62,7 @@ class Files extends \yii\db\ActiveRecord {
                 $image->writeImage($fullName);
             }
 
-            return $this->getModule()->getCacheUrl() . $sizeString . '/' . $this->filePath;
+            return $this->getModule()->getCacheUrl() . $sizeString . ($fill?'_f':'') . '/' . $this->filePath;
         }
         return $this->getModule()->getStoreUrl() . $this->filePath;
     }

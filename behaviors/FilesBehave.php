@@ -125,4 +125,38 @@ class FilesBehave extends Behavior {
         return $base;
     }
 
+    public function getImageUrl($category = null, $size = false, $fill = false, $noimage = '') {
+        if(!$this->hasFile($category)) return $noimage;
+
+        $file = $this->getFile($category);
+        if(!$file->isImage) return $noimage;
+        
+        return $file->getUrl($size, $fill);
+    }
+
+    public function getImagesUrl($category = null, $size = false, $fill = false, $noimage = '') {
+        if(!$this->hasFile($category)) return empty($noimage)?[]:[$noimage];
+
+        $images = [];
+        $files = $this->getFiles($category);
+        foreach($files as $file) {
+            if(!$file->isImage) continue;
+            $images[] = $file->getUrl($size, $fill);
+        }
+        
+        return empty($images) ? (empty($noimage)?[]:[$noimage]) : $images;
+    }
+
+    public function getImages($category = null) {
+        if(!$this->hasFile($category)) return [];
+
+        $images = [];
+        $files = $this->getFiles($category);
+        foreach($files as $file) {
+            if(!$file->isImage) continue;
+            $images[] = $file;
+        }
+
+        return $images;
+    }
 }
