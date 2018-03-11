@@ -104,6 +104,12 @@ class FilesBehave extends Behavior {
         return false;
     }
 
+    public function removeFiles($category = null, $ids = []) {
+        foreach($ids as $id) {
+            $this->removeFile($category, $id);
+        }
+    }
+
     public function setFileParam($id, $param, $value) {
         $finder = $this->getFilesFinder(['id' => $id]);
         $query = Files::find();
